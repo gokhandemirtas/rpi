@@ -1,1 +1,3 @@
 # rpi
+
+npm install

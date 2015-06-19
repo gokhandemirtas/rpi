@@ -10,7 +10,24 @@ serialPort.list(function (err, ports) {
   });
 });
 
+var Datastore = require('nedb')
+var db = new Datastore({ filename: 'veritabani.db', autoload: true });
+
+var sampleData = [{
+  lastUpdate: new Date(),
+  temp: 44,
+  humidity: 122
+}];
+
 var ardPort = new porter("/dev/ttyACM0");
+
+var dbInsert = function(data){
+  db.insert(data, function (err, newDocs) {
+    console.log('inserted to DB success'+newDocs);
+  });
+};
+
 ardPort.on("open",function(data){
-  console.log('data geliy'+data)
+  console.log('data geliy'+data);
+  dbInsert(sampleData);
 });
