@@ -8,14 +8,6 @@ var restServer = 'http://192.168.1.5:8000/';
 var Datastore = require('nedb')
 var db = new Datastore({ filename: 'client.db', autoload: true });
 
-var dataGenerator = function(){
-  return {
-    lastUpdate: new Date(),
-    temp: Math.random()*50,
-    humidity: Math.random()*80
-  }
-};
-
 var ardPort = new porter("/dev/ttyACM0");
 
 var writeLocal = function(args){
@@ -38,17 +30,7 @@ var writeRemote = function(args){
 
 ardPort.on("open",function(data){
   console.log('data geliy'+data);
-  var randomdata = dataGenerator();
-  writeLocal(randomdata);
-  writeRemote(randomdata);
+  
+  //writeLocal(randomdata);
+  //writeRemote(randomdata);
 });
-
-// periodic manual trigger
-
-var triggerWrite = function(){
-  var randomdata = dataGenerator();
-  writeLocal(randomdata);
-  writeRemote(randomdata);
-};
-
-setInterval(triggerWrite, 5000);
